@@ -1,3 +1,4 @@
+*,
 *::after,
 *::before {
   box-sizing: border-box;
@@ -7,14 +8,27 @@ body {
   margin: 0;
 }
 
+:root {
+  --bar-width: 60px;
+  --bar-height: 8px;
+  --hamburger-gap: 6px;
+  --foreground: #333;
+  --background: white;
+  --hamburger-margin: 8px;
+  --animation-timing: 200ms ease-in-out;
+  --hamburger-height: calc(var(--bar-height) * 3 + var(--hamburger-gap) * 2);
+}
+
 .hamburger-menu {
+  --x-width: calc(var(--hamburger-height) * 1.41421356237);
+
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--hamburger-gap);
   width: max-content;
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: var(--hamburger-margin);
+  left: var(--hamburger-margin);
   z-index: 2;
   cursor: pointer;
 }
@@ -27,22 +41,22 @@ body {
 .hamburger-menu:has(input:focus-visible)::before,
 .hamburger-menu:has(input:focus-visible)::after,
 .hamburger-menu input:focus-visible {
-  border: 1px solid #fff;
-  box-shadow: 0 0 0 1px #333;
+  border: 1px solid var(--background);
+  box-shadow: 0 0 0 1px var(--foreground);
 }
 
 .hamburger-menu::before,
 .hamburger-menu::after,
 .hamburger-menu input {
   content: "";
-  width: 60px;
-  height: 8px;
-  background-color: #333;
+  width: var(--bar-width);
+  height: var(--bar-height);
+  background-color: var(--foreground);
   border-radius: 9999px;
   transform-origin: left center;
-  transition: opacity 200ms ease-in-out, width 200ms ease-in-out,
-    rotate 200ms ease-in-out, translate 200ms ease-in-out,
-    background-color 200ms ease-in-out;
+  transition: opacity var(--animation-timing), width var(--animation-timing),
+    rotate var(--animation-timing), translate var(--animation-timing),
+    background-color var(--animation-timing);
 }
 
 .hamburger-menu input {
@@ -55,14 +69,14 @@ body {
 
 .hamburger-menu:has(input:checked)::before {
   rotate: 45deg;
-  width: 74.91005532px;
-  translate: 0 calc(8px / -2);
+  width: var(--x-width);
+  translate: 0 calc(var(--bar-height) / -2);
 }
 
 .hamburger-menu:has(input:checked)::after {
   rotate: -45deg;
-  width: 74.91005532px;
-  translate: 0 calc(8px / 2);
+  width: var(--x-width);
+  translate: 0 calc(var(--bar-height) / 2);
 }
 
 .hamburger-menu input:checked {
@@ -71,12 +85,12 @@ body {
 }
 
 .sidebar {
-  transition: translate 200ms ease-in-out;
+  transition: translate var(--animation-timing);
   translate: -100%;
   padding: 0.5rem 1rem;
-  padding-top: calc(32px + 8px + 1rem);
-  background-color: #333;
-  color: #fff;
+  padding-top: calc(var(--hamburger-height) + var(--hamburger-margin) + 1rem);
+  background-color: var(--foreground);
+  color: var(--background);
   max-width: 10rem;
   min-height: 100vh;
 }
